@@ -1,52 +1,38 @@
-al_size, status_codes):
-    print("File size: {}".#!/usr/bin/python3
+#!/usr/bin/python3
+"""
+Log parsing with metrics computation
+"""
+
 import sys
+import re
 
-def print_stats(totformat(total_size))
-    for code, count in sorted(status_codes.items()):
-        print("{}: {}".format(code, count))
+if __name__ == '__main__':
 
-def parse_line(line):
+    line_count = 0
+    total_file_size = 0
+    status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    stats = {code: 0 for code in status_codes}
+
+    def print_stats(stats: dict, total_size: int) -> None:
+        print("File size:", total_size)
+        for code in sorted(stats):
+            if stats[code] > 0:
+                print(code + ":", stats[code])
+
     try:
-        parts = line.split(' ')
-        if len(part            file_size = int(parts[-1])
-           s) >= 9:
-            status_code = int(parts[-2])
- return status_code, file_size
-    except ValueError:
-        pass
-    return None, None
-
-def main():
-    total_size = 0
-    status_codes = {
-        200: 0,
-        301: 0,
-        400: 0,
-        40 0,
-        500: 0
-    }
-    
-    try:
-        lin1: 0,
-        403: 0,
-        404: 0,
-        405:e_count = 0
         for line in sys.stdin:
             line_count += 1
-            status_code, file_size = parse_line(line)
-            if status_code and file_size:
-                total_size += fildes:
-                    status_codes[status_code]e_size
-                if status_code in status_co += 1
-            
+            line = line.strip()
+            match = re.match(r'.*GET \/projects\/260 HTTP\/1\.1" (\d+) (\d+)', line)
+            if match:
+                status_code = match.group(1)
+                file_size = int(match.group(2))
+                if status_code in status_codes:
+                    stats[status_code] += 1
+                total_file_size += file_size
             if line_count % 10 == 0:
-                print_stats(total_size, status_codes)
-
+                print_stats(stats, total_file_size)
+        print_stats(stats, total_file_size)
     except KeyboardInterrupt:
-        print_stats(total_size, status_codes)
+        print_stats(stats, total_file_size)
         raise
-
-if __name__ == "__main__":
-    main()
-
