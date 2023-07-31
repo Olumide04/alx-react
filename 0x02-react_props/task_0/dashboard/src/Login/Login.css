@@ -1,0 +1,9 @@
+.App-Login {
+    padding: 20px;
+    border-bottom: 2px solid red;
+  }
+  
+  .App-body label,
+  .App-body button {
+    margin: 10px;
+  }
