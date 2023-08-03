@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import BodySection from "./BodySection";
 import BodySectionWithMarginBottom from "./BodySectionWithMarginBottom";
+import BodySection from "./BodySection";
 
 describe("BodySectionWithMarginBottom tests", () => {
   it("should apply margin bottom to child component", () => {

@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Component } from "react";
 import BodySection from "./BodySection";
 import "./BodySectionWithMarginBottom.css";
 
-class BodySectionWithMarginBottom extends React.Component {
+class BodySectionWithMarginBottom extends Component {
   render() {
     return (
       <div className="bodySectionWithMargin">
