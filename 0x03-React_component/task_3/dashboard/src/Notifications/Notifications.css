@@ -1,0 +1,33 @@
+.Notifications {
+    padding: 1em;
+    position: absolute;
+    right: 0;
+    top: 1.8em;
+    border: 2px dashed red;
+}
+
+.Notifications img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.menuItem {
+    text-align: right;
+  }
+  
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+.Notifications ul li[data-priority="default"] {
+    color: blue;
+}
+
+.Notifications ul li[data-priority="urgent"],
+.Notifications ul li:last-child {
+    color: red;
+}
