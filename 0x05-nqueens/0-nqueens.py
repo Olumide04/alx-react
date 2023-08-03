@@ -42,4 +42,3 @@ if __name__ == "__main__":
     nqueens([None] * n, 0, n)
     [print([[row, col] for row, col in enumerate(sol)]) for sol in solutions]
     print(n, can_place_count, nqueens_count, can_place_count[0]/nqueens_count[0], math.factorial(n), can_place_count[0]/(pow(2, n) + n))
-
