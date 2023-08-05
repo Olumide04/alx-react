@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Component } from "react";
 
-class BodySection extends React.Component {
+class BodySection extends Component {
   render() {
     return (
       <div className="bodySection">
