@@ -1,8 +1,15 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+	plugins: [
+		new HTMLWebpackPlugin({
+			filename: './index.html',
+		}),
+		new CleanWebpackPlugin(),
+		],
+	devtool: 'inline-source-map',
 	mode: 'development',
 	entry: {
 		header: {
@@ -17,62 +24,45 @@ module.exports = {
 			import: './modules/footer/footer.js',
 			dependOn: 'shared',
 		},
-		shared: ['jquery', 'lodash'],
+		shared: 'jquery',
 	},
 	output: {
-		filename: '[name].bundle.js',
-		chunkFilename: '[name].chunk.js',
 		path: path.resolve(__dirname, 'public'),
+		filename: '[name].bundle.js',
 	},
-	module: {
-		rules: [
-			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader'],
-			},
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['@babel/preset-env'],
-					},
-				},
-			},
-			{
-				test: /\.jpg$/,
-				use: [
-					'file-loader',
-					{
-						loader: 'image-webpack-loader',
-						options: {
-							mozpeg: {
-								progressive: true,
-								quality: 75,
-							},
-						},
-					},
-				],
-			},
-		],
-	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			template: './modules/template.html',
-			filename: 'index.html',
-			chunks: ['header','body','footer'],
-		}),
-		new CleanWebpackPlugin(),
-	],
 	optimization: {
-		runtimeChunk: 'single',
+		splitChunks: {
+			chunks: 'all',
+		},
 	},
 	devServer: {
-		static: {
-			directory: path.resolve(__dirname, 'public'),
-		},
+		static: path.join(__dirname, './public'),
+		open: true,
 		port: 8564,
 	},
-	devtool: 'inline-source-map',
+	performance: {
+		maxAssetSize: 1000000,
+	},  
+  module: {
+	rules: [
+		{
+			test: /\.css$/i,
+			use: ["css-loader", "style-loader"],
+		},
+		{
+			test: /\.(?:ico|gif|png|jpe?g|svg)$/i,
+			type: 'asset/resource',
+			use: [
+				"file-loader",
+				{
+					loader: "image-webpack-loader",
+					options: {
+							bypassingOnDebug: true,
+							disable: true,
+					},
+				},
+			],
+		},
+	],
+},
 };
