@@ -37,3 +37,4 @@ describe('Basic React Tests - <CourseListRow />', function() {
 		expect(wrapper.find('tr').children('td')).toHaveLength(2);
 	});
 });
+
