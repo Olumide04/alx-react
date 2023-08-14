@@ -1,14 +1,14 @@
 import React from "react";
-import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
-import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
+import Login from "../Login/Login";
 import CourseList from "../CourseList/CourseList";
-import PropTypes from "prop-types";
-import { getLatestNotification } from "../utils/utils";
+import Notifications from "../Notifications/Notifications";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import BodySection from "../BodySection/BodySection";
-import { StyleSheet, css} from 'aphrodite'
+import { StyleSheet, css } from "aphrodite";
+import PropTypes from "prop-types";
+import { getLatestNotification } from "../utils/utils";
 
 class App extends React.Component {
   constructor(props) {
@@ -20,12 +20,13 @@ class App extends React.Component {
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
   }
+
   listCourses = [
     { id: 1, name: "ES6", credit: 60 },
     { id: 2, name: "Webpack", credit: 20 },
     { id: 3, name: "React", credit: 40 },
   ];
-  
+
   listNotifications = [
     { id: 1, type: "default", value: "New course available" },
     { id: 2, type: "urgent", value: "New resume available" },
@@ -34,6 +35,7 @@ class App extends React.Component {
 
   handleKeyPress(e) {
     if (e.ctrlKey && e.key === "h") {
+      e.preventDefault();
       alert("Logging you out");
       this.props.logOut();
     }
@@ -55,39 +57,35 @@ class App extends React.Component {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
 
-  render () {
+  render() {
     return (
       <React.Fragment>
         <div className={css(styles.App)}>
-        <Notifications
-          listNotifications={this.listNotifications}
-          displayDrawer={this.state.displayDrawer}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
-        />
-          <div className={css(styles.AppHead)}>
+          <div className="heading-section">
+            <Notifications
+              listNotifications={this.listNotifications}
+              displayDrawer={this.state.displayDrawer}
+              handleDisplayDrawer={this.handleDisplayDrawer}
+              handleHideDrawer={this.handleHideDrawer}
+            />
             <Header />
           </div>
-          <div className={css(styles.body)}>
-            {this.props.isLoggedIn ? (
-              <BodySectionWithMarginBottom title='Course list'>
-                <CourseList listCourses={this.listCourses} />
-              </BodySectionWithMarginBottom>
-            ) : (
-              <BodySectionWithMarginBottom title='Log in to continue'>
-                <Login />
-              </BodySectionWithMarginBottom>
-            )}
-            <BodySection title="News from the school">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis at tempora odio, necessitatibus repudiandae reiciendis cum nemo sed asperiores ut molestiae eaque aliquam illo ipsa
-                iste vero dolor voluptates.
-              </p>
-            </BodySection>
-          </div>
-          <div className={css(styles.footer)}>
-            <Footer />
-          </div>
+          {this.props.isLoggedIn ? (
+            <BodySectionWithMarginBottom title="Course list">
+              <CourseList listCourses={this.listCourses} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login />
+            </BodySectionWithMarginBottom>
+          )}
+          <BodySection title="News from the school">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis at tempora odio, necessitatibus repudiandae reiciendis cum nemo sed asperiores ut molestiae eaque aliquam illo ipsa
+              iste vero dolor voluptates.
+            </p>
+          </BodySection>
+          <Footer />
         </div>
       </React.Fragment>
     );
@@ -96,35 +94,18 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   App: {
-    height: '100vh',
-    maxWidth: '100vw',
-    position: 'relative',
-    fontFamily: 'Arial, Helvetica, sans-serif'
+    height: "100vh",
+    maxWidth: "100vw",
+    position: "relative",
+    fontFamily: "Arial, Helvetica, sans-serif",
   },
-  AppHead: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    borderBottom: '3px solid #e0354b'
-  },
-  body: {
-    minHeight: '50vh',
-    width: '90%',
-    margin: 'auto'
-  },
-  footer: {
-    fontSize: '1rem',
-    padding: '1.2rem',
-    textAlign: 'center',
-    fontStyle: 'italic',
-    borderTop: '3px solid #e0354b'
-  }
-})
+});
 
 App.defaultProps = {
   isLoggedIn: false,
   logOut: () => {
     return;
-  }
+  },
 };
 
 App.propTypes = {

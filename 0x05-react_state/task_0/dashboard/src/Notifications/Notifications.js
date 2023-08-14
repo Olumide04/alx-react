@@ -13,7 +13,7 @@ class Notifications extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.length > this.props.listNotifications.length;
+    return nextProps.length > this.props.listNotifications.length || nextProps.displayDrawer !== this.props.displayDrawer;
   }
 
   markAsRead(id) {
@@ -24,13 +24,7 @@ class Notifications extends Component {
     return (
       <React.Fragment>
         {!this.props.displayDrawer ? (
-          <div
-            className={css(styles.menuItem)}
-            onClick={(e) => {
-              console.log("notifications clicked");
-              this.props.handleDisplayDrawer();
-            }}
-          >
+          <div className={css(styles.menuItem)} onClick={this.props.handleDisplayDrawer}>
             <p>Your notifications</p>
           </div>
         ) : (
@@ -56,27 +50,11 @@ class Notifications extends Component {
             >
               <img src={closeIcon} alt="close icon" width="10px" />
             </button>
-            {this.props.listNotifications.length != 0 ? (
-              <p>Here is the list of notifications</p>
-            ) : null}
+            {this.props.listNotifications.length != 0 ? <p>Here is the list of notifications</p> : null}
             <ul>
-              {this.props.listNotifications.length == 0 ? (
-                <NotificationItem
-                  type="default"
-                  value="No new notification for now"
-                />
-              ) : null}
+              {this.props.listNotifications.length == 0 ? <NotificationItem type="default" value="No new notification for now" /> : null}
               {this.props.listNotifications.map((val, idx) => {
-                return (
-                  <NotificationItem
-                    type={val.type}
-                    value={val.value}
-                    html={val.html}
-                    key={val.id}
-                    markAsRead={this.markAsRead}
-                    id={val.id}
-                  />
-                );
+                return <NotificationItem type={val.type} value={val.value} html={val.html} key={val.id} markAsRead={this.markAsRead} id={val.id} />;
               })}
             </ul>
           </div>
